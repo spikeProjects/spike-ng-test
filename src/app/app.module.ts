@@ -20,14 +20,14 @@ import { AppService } from './app.service';
     SearchComponent,
     ArtistsComponent,
     TrackComponent,
-    AlbumComponent
+    AlbumComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
   ],
   providers: [
-    // AppService,
+    { provide: APP_BASE_HREF, useValue: '/' },
     {
       provide: AppService, 
       useClass: AppService
