@@ -31,7 +31,7 @@ describe('AppService', () => {
                          return new Http(backend, defaultOptions);
                        }, 
           deps: [MockBackend, BaseRequestOptions] 
-    	},
+    	  },
         {
           provide: ApiService,
           useFactory: (http: Http) => {
@@ -52,18 +52,18 @@ describe('AppService', () => {
   describe('getTrack', () => {
   	it('retrieves using the track ID',
   	  inject([AppService, MockBackend], fakeAsync((svc, backend) => {
-		let res;
-		const trackId = 'TRACK_ID';
-		let url = makeUrl('tracks/' + trackId);
-		expectURL(backend, url, expect);
-        
-        svc.getTrack(trackId).subscribe((_res) => {
-          res = _res;
-        });
-        tick();
+    		let res;
+    		const trackId = 'TRACK_ID';
+    		let url = makeUrl('tracks/' + trackId);
+    		expectURL(backend, url, expect);
+            
+            svc.getTrack(trackId).subscribe((_res) => {
+              res = _res;
+            });
+            tick();
 
-        expect(res.name).toBe('felipe');
-	  }))
+            expect(res.name).toBe('felipe');
+  	  }))
   	)
   });
 
@@ -82,7 +82,7 @@ describe('AppService', () => {
   			tick();
   			expect(res.name).toBe('felipe');
   		}))
-	);
+	  );
   });
 
   describe('getAlbum', () => {

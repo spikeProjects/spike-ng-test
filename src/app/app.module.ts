@@ -13,6 +13,8 @@ import { ArtistsComponent } from './artists/artists.component';
 import { TrackComponent } from './track/track.component';
 import { AlbumComponent } from './album/album.component';
 import { AppService } from './app.service';
+import { ParentModule } from './parent/parent.module';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -21,10 +23,12 @@ import { AppService } from './app.service';
     ArtistsComponent,
     TrackComponent,
     AlbumComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ParentModule,
   ],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },

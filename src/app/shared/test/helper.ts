@@ -1,3 +1,5 @@
+/// <reference path="../../../../node_modules/@types/jasmine/index.d.ts" />
+
 import * as path from 'path';
 import {
   Http,
@@ -18,6 +20,8 @@ import {
 } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockBackend } from '@angular/http/testing'
+// import { jasmine } from 'jasmine-core';
+
 import { environment } from '../../../environments/environment';
 
 export const makeUrl = (url) => path.join(environment.apiUrl, url);
@@ -61,6 +65,7 @@ export function configureTestModule({
   }).compileComponents();
 }
 
+
 export interface GuinessCompatibleSpy extends jasmine.Spy {
   /** By chaining the spy with and.returnValue, all calls to the function will return a specific
    * value. */
@@ -73,10 +78,10 @@ export interface GuinessCompatibleSpy extends jasmine.Spy {
 }
 
 export class SpyObject {
-  constructor(type?: any) {
+  constructor(type = null) {
     if (type) {
-      for (const prop in type.prototype) {
-        let m: any = null;
+      for (var prop in type.prototype) {
+        var m = null;
         try {
           m = type.prototype[prop];
         } catch (e) {
@@ -91,28 +96,17 @@ export class SpyObject {
       }
     }
   }
+  // Noop so that SpyObject has the same interface as in Dart
+  noSuchMethod(args) {}
 
-  spy(name: string) {
-    if (!(this as any)[name]) {
-      // (this as any)[name] = jasmine.createSpy(name);
-      (this as any)[name] = this._createGuinnessCompatibleSpy(name);
+  spy(name) {
+    if (!this[name]) {
+      this[name] = this._createGuinnessCompatibleSpy(name);
     }
-    return (this as any)[name];
+    return this[name];
   }
 
-  prop(name: string, value: any) { (this as any)[name] = value; }
-
-  static stub(object: any = null, config: any = null, overrides: any = null) {
-    if (!(object instanceof SpyObject)) {
-      overrides = config;
-      config = object;
-      object = new SpyObject();
-    }
-
-    const m = {...config, ...overrides};
-    Object.keys(m).forEach(key => { object.spy(key).and.returnValue(m[key]); });
-    return object;
-  }
+  prop(name, value) { this[name] = value; }
 
   /** @internal */
   _createGuinnessCompatibleSpy(name): GuinessCompatibleSpy {
@@ -124,8 +118,8 @@ export class SpyObject {
     newSpy.and.returnValue(null);
     return newSpy;
   }
-
 }
+
 
 export function advance(fixture: ComponentFixture<any>): void {
   tick();
